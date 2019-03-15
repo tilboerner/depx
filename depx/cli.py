@@ -14,7 +14,7 @@ def main(path, export):
     click.echo(json.dumps(deps, indent=4))
     G = create_from(deps)
 
-    report_location = report(G)
+    report_location = report(G, path)
     click.echo("Your report should be available here: {}".format(report_location))
     if export:
         filename = export_to(G, export)

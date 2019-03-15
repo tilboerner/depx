@@ -55,10 +55,10 @@ def test_create_graph(dependencies):
 
     assert expected_edges == []
 
-@pytest.mark.skip
+
 def test_generate_a_report(dependencies):
     G = graph.create_from(dependencies)
 
-    graph.report(G)
+    graph.report(G, os.getcwd())
 
-    assert 'yourdepx.html' in os.listdir()
+    assert 'report.html' in os.listdir()
