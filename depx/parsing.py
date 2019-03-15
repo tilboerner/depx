@@ -5,17 +5,22 @@ from pathlib import PurePath, Path
 
 
 def _dependency(*, from_module, to_module, category='', is_relative=False, **kwargs):
-    return {
+    kwargs.update({
         'from_module': from_module,
         'to_module': to_module,  # currently, this could also be a symbol within a module
         'category': category,
         'is_relative': is_relative,
-        **kwargs,
-    }
+    })
+    return kwargs
 
 
 def _goes_local(node):
-    return isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    func_defs = (ast.FunctionDef,)
+    try:
+        func_defs += (ast.AsyncFunctionDef,)
+    except AttributeError:  # Py < 3.5
+        pass
+    return isinstance(node, func_defs)
 
 
 def _walk(node):

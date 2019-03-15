@@ -1,7 +1,0 @@
-[
-    {
-        "from_module": "opportunity.models",
-        "to_module": "common.utils",
-        "category": "local"
-    }
-]
