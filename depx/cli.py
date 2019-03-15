@@ -5,13 +5,18 @@ import sys
 import click
 
 
-@click.command()
-def main(args=None):
-    """Console script for depx."""
-    click.echo("Replace this message by putting your code into "
-               "depx.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
+@click.group()
+def main():
     return 0
+
+
+@main.command()
+@click.argument('path')
+def parse(path):
+    import json
+    from depx.parsing import find_module_imports
+    deps = list(find_module_imports(path))
+    click.echo(json.dumps(deps, indent=4))
 
 
 if __name__ == "__main__":
