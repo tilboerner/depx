@@ -14,8 +14,8 @@ def main():
 @click.argument('path')
 def parse(path):
     import json
-    from depx.parsing import find_module_imports
-    deps = list(find_module_imports(path))
+    from depx.parsing import find_imports
+    deps = list(find_imports(path))
     click.echo(json.dumps(deps, indent=4))
 
 
