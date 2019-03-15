@@ -5,13 +5,13 @@ from pathlib import PurePath, Path
 
 
 def _dependency(*, from_module, to_module, category='', is_relative=False, **kwargs):
-    return {
+    kwargs.update({
         'from_module': from_module,
         'to_module': to_module,  # currently, this could also be a symbol within a module
         'category': category,
         'is_relative': is_relative,
-        **kwargs,
-    }
+    })
+    return kwargs
 
 
 def _goes_local(node):

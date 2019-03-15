@@ -1,5 +1,4 @@
 from jinja2 import Template
-import json
 import networkx as nx
 from networkx.readwrite import json_graph
 
@@ -7,7 +6,6 @@ from networkx.readwrite import json_graph
 def create_from(dependencies):
     G = nx.DiGraph()
 
-    modules = {}
     for dependency in dependencies:
         try:
             weight = G[dependency['from_module']][dependency['to_module']]['weight']
