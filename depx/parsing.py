@@ -33,10 +33,6 @@ def _is_package(path):
     return (Path(path) / '__init__.py').is_file()
 
 
-def _is_module(path):
-    return PurePath(path).name.endswith('.py')
-
-
 def _find_base_name(path, base_name=''):
     parent = Path(path).parent
     if not _is_package(parent):
