@@ -15,10 +15,10 @@ def main(path, export):
     G = create_from(deps)
 
     report_location = report(G)
-    click.echo(f"Your report should be available here: {report_location}")
+    click.echo("Your report should be available here: %s".format(report_location))
     if export:
         filename = export_to(G, export)
-        click.echo(f"Your graph is ready: {filename}")
+        click.echo("Your graph is ready: %s".format(filename))
 
     return 0
 
