@@ -43,9 +43,17 @@ def test_create_graph(dependencies):
         ('common.utils', 'opportunity.views', {'weight': 1}),
         ('sales_appoinment.views', 'common.utils', {'weight': 1})
     ]
-    assert list(G.nodes()) == expected_nodes
-    assert list(G.edges(data=True)) == expected_edges
+    for node in G.nodes():
+        assert node in expected_nodes
+        expected_nodes.remove(node)
 
+    assert expected_nodes == []
+
+    for edge in G.edges(data=True):
+        assert edge in expected_edges
+        expected_edges.remove(edge)
+
+    assert expected_edges == []
 
 @pytest.mark.skip
 def test_generate_a_report(dependencies):
