@@ -1,7 +1,6 @@
 import ast
 import os
 import re
-from pathlib import PurePath, Path
 
 
 def _dependency(*, from_module, to_module, category='', is_relative=False, **kwargs):
@@ -35,17 +34,19 @@ def _walk(node):
 
 
 def _is_package(path):
-    return (Path(path) / '__init__.py').is_file()
+    init_path = os.path.join(path, '__init__.py')
+    return os.path.isfile(init_path)
 
 
 def _find_base_name(path, base_name=''):
-    parent = Path(path).parent
+    parent = os.path.dirname(path)
     if not _is_package(parent):
         return base_name
+    parent_name = os.path.basename(parent)
     if base_name:
-        base_name = parent.name + '.' + base_name
+        base_name = parent_name + '.' + base_name
     else:
-        base_name = parent.name
+        base_name = parent_name
     return _find_base_name(parent, base_name)
 
 
@@ -84,7 +85,7 @@ def find_package_imports(path):
 def find_module_imports(path, base_name=None):
     with open(path) as f:
         text = f.read()
-    module_name = PurePath(path).stem
+    module_name = os.path.splitext(os.path.basename(path))[0]
     if base_name is None:
         base_name = _find_base_name(path)
     if base_name:
