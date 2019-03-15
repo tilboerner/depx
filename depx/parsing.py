@@ -1,5 +1,5 @@
 import ast
-from pathlib import PurePath
+from pathlib import PurePath, Path
 
 
 def _dependency(*, from_module, to_module, category='', is_relative=False, **kwargs):
@@ -27,10 +27,27 @@ def _walk(node):
         yield node, is_local
 
 
-def find_module_imports(path, base_name=''):
+def _is_package(path):
+    return (path / '__init__.py').is_file()
+
+
+def _find_base_name(path, base_name=''):
+    parent = Path(path).parent
+    if not _is_package(parent):
+        return base_name
+    if base_name:
+        base_name = parent.name + '.' + base_name
+    else:
+        base_name = parent.name
+    return _find_base_name(parent, base_name)
+
+
+def find_module_imports(path, base_name=None):
     with open(path) as f:
         text = f.read()
     module_name = PurePath(path).stem
+    if base_name is None:
+        base_name = _find_base_name(path)
     if base_name:
         module_name = base_name + '.' + module_name
     return find_imports(text, module_name)
