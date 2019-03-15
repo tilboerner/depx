@@ -1,4 +1,6 @@
 import ast
+import os
+import re
 from pathlib import PurePath, Path
 
 
@@ -28,7 +30,11 @@ def _walk(node):
 
 
 def _is_package(path):
-    return (path / '__init__.py').is_file()
+    return (Path(path) / '__init__.py').is_file()
+
+
+def _is_module(path):
+    return PurePath(path).name.endswith('.py')
 
 
 def _find_base_name(path, base_name=''):
@@ -42,6 +48,38 @@ def _find_base_name(path, base_name=''):
     return _find_base_name(parent, base_name)
 
 
+def _is_module(path):
+    if not os.path.isfile(path):
+        return False
+    if path.endswith('.py'):
+        return True
+    with open(path) as f:
+        try:
+            line = f.readline()
+        except UnicodeError:
+            return False
+    return bool(line and re.match(r'^#!.*?python', line))
+
+
+def find_imports(path):
+    if _is_package(path):
+        yield from find_package_imports(path)
+    else:
+        yield from find_module_imports(path)
+
+
+def find_package_imports(path):
+    for path, subdirs, files in os.walk(path):
+        subdirs[:] = [
+            d for d in subdirs if _is_package(os.path.join(path, d))
+        ]
+    for filename in files:
+        module_path = os.path.join(path, filename)
+        if not _is_module(module_path):
+            continue
+        yield from find_module_imports(module_path)
+
+
 def find_module_imports(path, base_name=None):
     with open(path) as f:
         text = f.read()
@@ -50,10 +88,10 @@ def find_module_imports(path, base_name=None):
         base_name = _find_base_name(path)
     if base_name:
         module_name = base_name + '.' + module_name
-    return find_imports(text, module_name)
+    return find_imports_from_text(text, module_name)
 
 
-def find_imports(text, base_name):
+def find_imports_from_text(text, base_name):
     tree = ast.parse(text)
     for node, is_local in _walk(tree):
         category = 'local' if is_local else 'module'
