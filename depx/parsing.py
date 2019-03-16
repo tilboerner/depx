@@ -4,13 +4,14 @@ import re
 
 
 def _dependency(*, from_module, to_module, category='', is_relative=False, **kwargs):
-    kwargs.update({
+    dep = {
         'from_module': from_module,
         'to_module': to_module,  # currently, this could also be a symbol within a module
         'category': category,
         'is_relative': is_relative,
-    })
-    return kwargs
+    }
+    dep.update(kwargs)
+    return dep
 
 
 def _goes_local(node):
