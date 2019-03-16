@@ -75,11 +75,11 @@ def find_package_imports(path):
         subdirs[:] = [
             d for d in subdirs if _is_package(os.path.join(path, d))
         ]
-    for filename in files:
-        module_path = os.path.join(path, filename)
-        if not _is_module(module_path):
-            continue
-        yield from find_module_imports(module_path)
+        for filename in files:
+            module_path = os.path.join(path, filename)
+            if not _is_module(module_path):
+                continue
+            yield from find_module_imports(module_path)
 
 
 def find_module_imports(path, base_name=None):
