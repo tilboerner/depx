@@ -22,17 +22,13 @@ def export_to(G, export_format):
     return filename
 
 
-def report(G):
-    # WIP
+def report(G, path):
     data = json_graph.node_link_data(G)
 
-    # weight -> value
-
-    # import ipdb; ipdb.set_trace()
     with open('depx/template.html') as file_:
         template = Template(file_.read())
 
         filename = "report.html"
-        with open(filename, "w") as f:
-            f.write(template.render(content='bla', path='.'))
+        with open(filename, "w") as report_file:
+            report_file.write(template.render(data=data, path=path))
     return filename
