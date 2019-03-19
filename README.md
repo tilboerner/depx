@@ -2,7 +2,6 @@
 
 ![https://img.shields.io/pypi/v/depx.svg](https://pypi.python.org/pypi/depx)
 ![https://img.shields.io/travis/thermondo/depx.svg](https://travis-ci.org/thermondo/depx)
-![https://readthedocs.org/projects/depx/badge/?version=latest](https://depx.readthedocs.io/en/latest/?badge=latest)
 
 
 Examine and visualize dependencies used by Python modules.
@@ -56,6 +55,6 @@ should include several standard ways to consume such data.
 
 - [x] JSON
 - [x] GraphML
-- [ ] browser-ready HTML with visualization
+- [x] browser-ready HTML with visualization
 - [ ] Graphviz (`.dot`)
 - [ ] text with columns (to compose with Unix pipes)
