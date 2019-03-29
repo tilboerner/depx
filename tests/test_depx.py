@@ -1,6 +1,5 @@
 from click.testing import CliRunner
 
-from depx import depx
 from depx import cli
 
 
