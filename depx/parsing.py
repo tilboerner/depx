@@ -71,8 +71,8 @@ def find_imports(path):
         yield from find_imports_in_directory(path)
 
 
-def find_imports_in_directory(path):
-    for path, subdirs, files in os.walk(path):
+def find_imports_in_directory(directory_path):
+    for path, subdirs, files in os.walk(directory_path):
         subdirs[:] = [
             d for d in subdirs if _is_package(os.path.join(path, d))
         ]
