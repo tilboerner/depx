@@ -65,13 +65,13 @@ def _is_module(path):
 
 
 def find_imports(path):
-    if _is_package(path):
-        yield from find_package_imports(path)
-    else:
+    if _is_module(path):
         yield from find_module_imports(path)
+    else:
+        yield from find_imports_in_directory(path)
 
 
-def find_package_imports(path):
+def find_imports_in_directory(path):
     for path, subdirs, files in os.walk(path):
         subdirs[:] = [
             d for d in subdirs if _is_package(os.path.join(path, d))
