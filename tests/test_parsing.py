@@ -164,18 +164,18 @@ def test_find_imports():
             'to_module': 'fake_module.a_module',
             'category': 'module',
             'is_relative': False,
-            'from_name': 'a_module',
-            'to_name': 'a_module',
+            'from_name': 'fake_module.a_module',
+            'to_name': 'fake_module.a_module',
             # 'level': 0  # FIXME enable after fixed
         },
         {
             'from_module': 'fake_module.__init__',
-            'to_module': 'fake_module.another_module',
+            'to_module': 'fake_module',
             'category': 'module',
             'is_relative': False,
             'from_name': 'another_module',
             'to_name': 'another_module',
-            # 'level': 0  # FIXME enable after fixed
+            'level': 0
         },
 
         {
