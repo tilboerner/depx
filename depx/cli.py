@@ -8,10 +8,11 @@ import sys
 @click.command()
 @click.argument('path')
 @click.option("--export", "-e", is_flag=True, help="Export your graph to a file.")
-@click.option("--full-names", "-f", is_flag=True, help="")  # FIXME help
-def main(path, export, *, full_names):
+@click.option("--short-names/--no-short-names", "-S/ ", default=False,
+              help="Use the top-level name only for all dependencies (up to first .)")
+def main(path, *, export, short_names):
     deps = find_imports(path)
-    if not full_names:
+    if short_names:
         deps = filter_top_level_names(deps)
     deps = list(deps)
 
