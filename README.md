@@ -16,6 +16,15 @@ all out of scope, however, although some might get considered at a later time.
 In this early stage, all functionality, structure and interfaces are subject to
 radical and surprising changes.
 
+
+## Dev setup
+
+All the dependencies you need for development are in `requirements-dev.txt`.
+
+You can run tests by executing `$ pytest` in the project directory, or the
+whole tox test suite by running `$ tox`.
+
+
 ## Envisioned use cases
 
 The project should enable the following use cases, but might do so by handing
