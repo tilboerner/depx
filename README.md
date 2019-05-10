@@ -35,7 +35,7 @@ Sketch of ideas. This is not meant as a plan, but to guide initial development.
 
 - [x] identify all explicit imports a module makes
 - [x] same for whole packages
-- [ ] same for arbitrary directories
+- [x] same for arbitrary directories
 - [x] identify local imports (those are smelly)
 - [ ] distinguish built-in, 3rd party and local dependencies
 
