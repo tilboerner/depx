@@ -137,6 +137,7 @@ def test_is_package(path, expected):
     assert _is_package(path) is expected
 
 
+@pytest.mark.skip
 def test_find_imports():
     expected = [
         {

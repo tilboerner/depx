@@ -10,7 +10,7 @@ import sys
 @click.option("--export", "-e", is_flag=True, help="Export your graph to a file.")
 def main(path, export):
     deps = list(find_imports(path))
-    print(deps)
+
     if deps:
         click.echo(json.dumps(deps, indent=4))
         G = create_from(deps)
