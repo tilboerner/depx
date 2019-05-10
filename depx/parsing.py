@@ -122,6 +122,15 @@ def find_imports_from_text(text, base_name):
                 )
 
 
+def filter_top_level_names(deps):
+    for dep in deps:
+        dep['from_module'] = dep['from_module'].split('.')[0]
+        dep['to_module'] = dep['to_module'].split('.')[0]
+        dep['from_name'] = ''
+        dep['to_name'] = ''
+        yield dep
+
+
 if __name__ == '__main__':
     from pprint import pprint
     for x in find_module_imports(__file__):

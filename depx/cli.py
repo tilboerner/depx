@@ -1,6 +1,6 @@
 import click
 from depx.graph import create_from, export_to, report
-from depx.parsing import find_imports
+from depx.parsing import find_imports, filter_top_level_names
 import json
 import sys
 
@@ -8,8 +8,12 @@ import sys
 @click.command()
 @click.argument('path')
 @click.option("--export", "-e", is_flag=True, help="Export your graph to a file.")
-def main(path, export):
-    deps = list(find_imports(path))
+@click.option("--full-names", "-f", is_flag=True, help="")  # FIXME help
+def main(path, export, *, full_names):
+    deps = find_imports(path)
+    if not full_names:
+        deps = filter_top_level_names(deps)
+    deps = list(deps)
 
     if deps:
         click.echo(json.dumps(deps, indent=4))
