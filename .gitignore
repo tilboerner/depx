@@ -75,3 +75,4 @@ ENV/
 
 report.html
 graph.graphml
+graph.dot

@@ -1,4 +1,5 @@
 from click.testing import CliRunner
+import pytest
 
 from depx import cli
 
@@ -11,12 +12,16 @@ def test_command_line_interface():
     run_result = runner.invoke(cli.main, [fake_module])
 
     assert run_result.exit_code == 0
-    assert 'Your report should be available here:' in run_result.output
 
 
-def test_export():
+@pytest.mark.parametrize('format,message', [
+    ('html', 'Your report should be available here:'),
+    ('graphml', 'Your graph is ready:'),
+    ('dotfile', 'Your graph is ready:'),
+])
+def test_export_to(format, message):
     runner = CliRunner()
-    run_result = runner.invoke(cli.main, [fake_module, '--export'])
+    run_result = runner.invoke(cli.main, [fake_module, '--format', format])
 
     assert run_result.exit_code == 0
-    assert 'Your graph is ready:' in run_result.output
+    assert message in run_result.output

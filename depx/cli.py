@@ -1,5 +1,5 @@
 import click
-from depx.graph import create_from, export_to, report
+from depx.graph import create_from, export_to
 from depx.parsing import find_imports
 import json
 import sys
@@ -7,22 +7,25 @@ import sys
 
 @click.command()
 @click.argument('path')
-@click.option("--export", "-e", is_flag=True, help="Export your graph to a file.")
-def main(path, export):
+@click.option('--format', '-f', help='Export your graph to: html, graphml or dotfile.')
+def main(path, format):
     deps = list(find_imports(path))
 
     if deps:
-        click.echo(json.dumps(deps, indent=4))
         G = create_from(deps)
+        graph_location = export_to(G, format, path)
 
-        report_location = report(G, path)
-        click.echo("Your report should be available here: {}".format(report_location))
-        if export:
-            filename = export_to(G, export)
-            click.echo("Your graph is ready: {}".format(filename))
+        if format == 'html':
+            click.echo('Your report should be available here: {}'.format(graph_location))
+        elif format == 'graphml':
+            click.echo('Your graph is ready: {}'.format(graph_location))
+        elif format == 'dotfile':
+            click.echo('Your graph is ready: {}'.format(graph_location))
+        else:
+            click.echo(json.dumps(deps, indent=4))
 
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())  # pragma: no cover

@@ -59,6 +59,6 @@ def test_create_graph(dependencies):
 def test_generate_a_report(dependencies):
     G = graph.create_from(dependencies)
 
-    graph.report(G, os.getcwd())
+    graph.to_html(G, os.getcwd())
 
     assert 'report.html' in os.listdir()
