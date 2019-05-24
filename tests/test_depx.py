@@ -19,6 +19,6 @@ def test_command_line_interface():
 ])
 def test_export_to(format):
     runner = CliRunner()
-    run_result = runner.invoke(cli.main, [fake_module, '--format', format])
+    run_result = runner.invoke(cli.main, [fake_module, '--to_format', format])
 
     assert run_result.exit_code == 0

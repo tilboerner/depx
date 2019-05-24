@@ -132,6 +132,15 @@ def find_imports_from_text(text, base_name):
                 )
 
 
+def filter_top_level_names(deps):
+    for dep in deps:
+        dep['from_module'] = dep['from_module'].split('.')[0]
+        dep['to_module'] = dep['to_module'].split('.')[0]
+        dep['from_name'] = ''
+        dep['to_name'] = ''
+        yield dep
+
+
 def _resolve_relative_name(name, base_name, level):
     parts = base_name and base_name.split('.')
     if not (parts and all(parts)) or len(parts) < level:
