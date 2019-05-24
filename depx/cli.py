@@ -17,7 +17,7 @@ formatters = {
 @click.command()
 @click.argument('path')
 @click.option(
-    '--to_format', '-f',
+    '--format', '-f',
     type=click.Choice(formatters),
     default='json',
     help='Graph output format.'
@@ -27,7 +27,9 @@ formatters = {
     default=False,
     help='Use the top-level name only for all dependencies (up to first).'
 )
-def main(path, *, to_format, short_names):
+def main(path, **kwargs):
+    to_format = kwargs['format']
+    short_names = kwargs['short_names']
     deps = list(find_imports(path))
 
     if short_names:

@@ -66,11 +66,13 @@ Sketch of ideas. This is not meant as a plan, but to guide initial development.
 
 ### Output formats
 
+    depx my-awesome-project --format html
+
 The identified dependencies are the edges of a directed graph. Output formats
 should include several standard ways to consume such data.
 
 - [x] JSON
 - [x] GraphML
 - [x] browser-ready HTML with visualization
-- [ ] Graphviz (`.dot`)
+- [x] Graphviz (`.dot`)
 - [ ] text with columns (to compose with Unix pipes)
