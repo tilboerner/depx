@@ -1,10 +1,22 @@
-import ast
+from typed_ast import ast3, ast27
+from typed_ast._ast3 import Module as ModuleAST3
+from collections import deque
 import logging
 import os
 import re
 
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_ast(src):
+    # thanks to Black
+    for feature_version in (7, 6):
+        try:
+            return ast3.parse(src, feature_version=feature_version)
+        except SyntaxError:
+            continue
+    return ast27.parse(src)
 
 
 def _dependency(*, from_module, to_module, category='', is_relative=False, level=0, **kwargs):
@@ -20,17 +32,19 @@ def _dependency(*, from_module, to_module, category='', is_relative=False, level
 
 
 def _goes_local(node):
-    func_defs = (ast.FunctionDef,)
+    func_defs = (ast27.FunctionDef, ast3.FunctionDef)
     try:
-        func_defs += (ast.AsyncFunctionDef,)
+        func_defs += (ast3.AsyncFunctionDef,)
     except AttributeError:  # Py < 3.5
         pass
     return isinstance(node, func_defs)
 
 
 def _walk(node):
-    from collections import deque
-    iter_child_nodes = ast.iter_child_nodes
+    iter_child_nodes = ast3.iter_child_nodes
+    if not isinstance(node, ModuleAST3):
+        iter_child_nodes = ast27.iter_child_nodes
+
     todo = deque([(node, False)])
     while todo:
         node, is_local = todo.popleft()
@@ -100,10 +114,10 @@ def find_module_imports(path, base_name=None):
 
 
 def find_imports_from_text(text, base_name):
-    tree = ast.parse(text)
+    tree = _parse_ast(text)
     for node, is_local in _walk(tree):
         category = 'local' if is_local else 'module'
-        if isinstance(node, ast.Import):
+        if isinstance(node, (ast27.Import, ast3.Import)):
             for alias in node.names:
                 yield _dependency(
                     category=category,
@@ -112,7 +126,7 @@ def find_imports_from_text(text, base_name):
                     to_module=alias.name,
                     to_name=alias.name,
                 )
-        elif isinstance(node, ast.ImportFrom):
+        elif isinstance(node, (ast27.ImportFrom, ast3.ImportFrom)):
             level = node.level
             module = node.module
             for alias in node.names:

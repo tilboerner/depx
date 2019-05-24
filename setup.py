@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-requirements = ['Click>=6.0', 'jinja2', 'networkx', 'pydot', ]
+requirements = ['Click>=6.0', 'jinja2', 'networkx', 'pydot', 'typed-ast==1.3.5']
 
 setup_requirements = ['pytest-runner', ]
 

@@ -2,10 +2,12 @@ from operator import itemgetter
 
 from depx.parsing import (
     find_imports_from_text, _dependency, find_imports, _is_package,
-    _is_module, _find_base_name, filter_top_level_names
+    _is_module, _find_base_name, filter_top_level_names, _parse_ast
 )
 import os
 import pytest
+from typed_ast._ast3 import Module as ModuleAST3
+from typed_ast._ast27 import Module as ModuleAST27
 import sys
 from textwrap import dedent
 
@@ -179,6 +181,10 @@ def test_find_imports_from_text__async_def():
     (os.getcwd() + '/tests/fake_project/another_fake_module', True),
     (os.getcwd() + '/tests/fake_project/fake_module', True),
     (os.getcwd() + '/tests/fake_project/random_folder', False),
+    # Python 2.7
+    (os.getcwd() + '/tests/project_py27/another_fake_module', True),
+    (os.getcwd() + '/tests/project_py27/fake_module', True),
+    (os.getcwd() + '/tests/project_py27/random_folder', False),
 ])
 def test_is_package(path, expected):
     assert _is_package(path) is expected
@@ -235,6 +241,7 @@ def test_find_imports():
     ]
     by_name = itemgetter('from_module', 'from_name', 'to_module', 'to_name')
     assert sorted(find_imports('tests/fake_project'), key=by_name) == sorted(expected, key=by_name)
+    assert sorted(find_imports('tests/project_py27'), key=by_name) == sorted(expected, key=by_name)
 
 
 @pytest.mark.parametrize('path,expected', [
@@ -243,6 +250,12 @@ def test_find_imports():
     (os.getcwd() + '/tests/fake_project/setup.py', True),
     (os.getcwd() + '/tests/fake_project/random_folder/python_file_without_py_extension.txt', True),
     (os.getcwd() + '/tests/fake_project/random_folder/cool_file.txt', False),
+    # Python 2.7
+    (os.getcwd() + '/tests/project_py27/another_fake_module/__init__.py', True),
+    (os.getcwd() + '/tests/project_py27/another_fake_module/missing_creativity.py', True),
+    (os.getcwd() + '/tests/project_py27/setup.py', True),
+    (os.getcwd() + '/tests/project_py27/random_folder/python_file_without_py_extension.txt', True),
+    (os.getcwd() + '/tests/project_py27/random_folder/cool_file.txt', False),
 ])
 def test_is_module(path, expected):
     assert _is_module(path) is expected
@@ -255,6 +268,13 @@ def test_is_module(path, expected):
         'another_fake_module'
     ),
     ('tests/fake_project/setup.py', ''),
+    # Python 2.7
+    ('tests/project_py27/another_fake_module/__init__.py', 'another_fake_module'),
+    (
+        os.getcwd() + '/tests/project_py27/another_fake_module/missing_creativity.py',
+        'another_fake_module'
+    ),
+    ('tests/project_py27/setup.py', ''),
 ])
 def test_find_base_name(path, expected):
     assert _find_base_name(path) == expected
@@ -274,3 +294,11 @@ def test_filter_top_level_names():
         'to_name': '',
     }
     assert list(filter_top_level_names([dependency])) == [expected]
+
+
+@pytest.mark.parametrize('src,module_version', [
+    ('print "python27", 1000L', ModuleAST27),
+    ('print("python3")', ModuleAST3),
+])
+def test_parse_ast(src, module_version):
+    assert isinstance(_parse_ast(src), module_version)
