@@ -1,7 +1,6 @@
 # Depx
 
-![https://img.shields.io/pypi/v/depx.svg](https://pypi.python.org/pypi/depx)
-![https://img.shields.io/travis/thermondo/depx.svg](https://travis-ci.org/thermondo/depx)
+[![Build Status](https://travis-ci.com/Thermondo/depx.svg?token=9ar8wQENH7prXiRzxQ4v&branch=master)](https://travis-ci.com/Thermondo/depx)
 
 
 Examine and visualize dependencies used by Python modules.
