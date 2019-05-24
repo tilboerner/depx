@@ -2,8 +2,8 @@ from operator import itemgetter
 
 from depx.parsing import (
     find_imports_from_text, _dependency, find_imports, _is_package,
-    _is_module, _find_base_name,
-    filter_top_level_names)
+    _is_module, _find_base_name, filter_top_level_names
+)
 import os
 import pytest
 import sys
@@ -261,7 +261,7 @@ def test_find_base_name(path, expected):
 
 
 def test_filter_top_level_names():
-    input = {
+    dependency = {
         'from_module': 'a.b',
         'to_module': 'x.y.z',
         'from_name': 'SOMETHING',
@@ -273,4 +273,4 @@ def test_filter_top_level_names():
         'from_name': '',
         'to_name': '',
     }
-    assert list(filter_top_level_names([input])) == [expected]
+    assert list(filter_top_level_names([dependency])) == [expected]
