@@ -4,6 +4,8 @@ import networkx as nx
 from networkx.readwrite import json_graph
 from networkx.drawing.nx_pydot import to_pydot
 import io
+import sys
+from pathlib import Path
 
 
 def create_graph_from(dependencies):
@@ -19,10 +21,24 @@ def create_graph_from(dependencies):
     return graph
 
 
+def get_html_template():
+    default = Path('depx') / 'template.html'
+    if default.exists():
+        return default
+
+    for path in sys.path:
+        if not path.endswith('site-packages'):  # search only in site-packages
+            continue
+
+        template = Path(path) / default
+        if template.exists():
+            return template
+
+
 def to_html(**kwargs):
     data = json_graph.node_link_data(kwargs['graph'])
 
-    with open('depx/template.html') as file_:
+    with open(get_html_template()) as file_:
         template = Template(file_.read())
         content = template.render(data=data, path=kwargs['path'])
         return content
