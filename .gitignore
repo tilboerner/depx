@@ -73,6 +73,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-report.html
+graph.html
 graph.graphml
 graph.dot

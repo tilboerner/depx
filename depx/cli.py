@@ -1,28 +1,37 @@
 import click
-from depx.graph import create_from, export_to
+from depx.graph import (
+    create_graph_from, to_json, to_html, to_graphml, to_dotfile
+)
 from depx.parsing import find_imports
-import json
 import sys
+
+
+formatters = {
+    'json': to_json,
+    'html': to_html,
+    'graphml': to_graphml,
+    'dotfile': to_dotfile
+}
 
 
 @click.command()
 @click.argument('path')
-@click.option('--format', '-f', help='Export your graph to: html, graphml or dotfile.')
+@click.option(
+    '--format', '-f',
+    type=click.Choice(formatters),
+    default='json',
+    help='Graph output format.'
+)
 def main(path, format):
     deps = list(find_imports(path))
 
     if deps:
-        G = create_from(deps)
-        graph_location = export_to(G, format, path)
+        graph = create_graph_from(deps)
 
-        if format == 'html':
-            click.echo('Your report should be available here: {}'.format(graph_location))
-        elif format == 'graphml':
-            click.echo('Your graph is ready: {}'.format(graph_location))
-        elif format == 'dotfile':
-            click.echo('Your graph is ready: {}'.format(graph_location))
-        else:
-            click.echo(json.dumps(deps, indent=4))
+        export_to = formatters.get(format)
+        graph_location = export_to(graph=graph, path=path, dependencies=deps)
+
+        click.echo('Your graph is ready:\n{}'.format(graph_location))
 
     return 0
 

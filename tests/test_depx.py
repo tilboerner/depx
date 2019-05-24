@@ -14,14 +14,13 @@ def test_command_line_interface():
     assert run_result.exit_code == 0
 
 
-@pytest.mark.parametrize('format,message', [
-    ('html', 'Your report should be available here:'),
-    ('graphml', 'Your graph is ready:'),
-    ('dotfile', 'Your graph is ready:'),
+@pytest.mark.parametrize('format', [
+    'json', 'html', 'graphml', 'dotfile'
 ])
-def test_export_to(format, message):
+def test_export_to(format):
+    expected_message = 'Your graph is ready:'
     runner = CliRunner()
     run_result = runner.invoke(cli.main, [fake_module, '--format', format])
 
     assert run_result.exit_code == 0
-    assert message in run_result.output
+    assert expected_message in run_result.output

@@ -1,4 +1,6 @@
-from depx import graph
+from depx.graph import (
+    create_graph_from, to_html, to_graphml, to_dotfile, to_json
+)
 import os
 import pytest
 
@@ -30,7 +32,7 @@ def dependencies():
 
 
 def test_create_graph(dependencies):
-    G = graph.create_from(dependencies)
+    G = create_graph_from(dependencies)
 
     expected_nodes = [
         'opportunity.models',
@@ -56,9 +58,37 @@ def test_create_graph(dependencies):
     assert expected_edges == []
 
 
-def test_generate_a_report(dependencies):
-    G = graph.create_from(dependencies)
+def test_format_to_html(dependencies):
+    graph = create_graph_from(dependencies)
 
-    graph.to_html(G, os.getcwd())
+    to_html(graph=graph, path=os.getcwd())
 
-    assert 'report.html' in os.listdir()
+    assert 'graph.html' in os.listdir()
+
+    os.remove('graph.html')
+
+
+def test_format_to_graphml(dependencies):
+    graph = create_graph_from(dependencies)
+
+    to_graphml(graph=graph, path=os.getcwd())
+
+    assert 'graph.graphml' in os.listdir()
+
+    os.remove('graph.graphml')
+
+
+def test_format_to_dotfile(dependencies):
+    graph = create_graph_from(dependencies)
+
+    to_dotfile(graph=graph, path=os.getcwd())
+
+    assert 'graph.dot' in os.listdir()
+
+    os.remove('graph.dot')
+
+
+def test_format_to_json(dependencies):
+    graph_json = to_json(dependencies=dependencies)
+
+    assert isinstance(graph_json, str)
