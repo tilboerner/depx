@@ -40,6 +40,7 @@ setup(
     license="GNU General Public License v3",
     long_description=readme,
     include_package_data=True,
+    package_data={'': ['template.html']},
     keywords='depx',
     name='depx',
     packages=find_packages(include=['depx']),
