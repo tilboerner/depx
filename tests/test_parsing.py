@@ -73,13 +73,58 @@ from textwrap import dedent
         ],
     ),
     (
-        'RELATIVE_IMPORT',
-        'from .sibling_namespace import some_module',
+        'FROM_NAMESPACE_IMPORT_NAME_ALIAS',
+        'from some_namespace import some_name as alias_name',
         [
             _dependency(
-                from_module='RELATIVE_IMPORT',
+                from_module='FROM_NAMESPACE_IMPORT_NAME_ALIAS',
+                from_name='alias_name',
+                to_module='some_namespace',
+                to_name='some_name',
+                category='module',
+                is_relative=False,
+                level=0,
+            ),
+        ],
+    ),
+    (
+        'BASE_PACKAGE.RELATIVE_IMPORT',
+        'from . import some_module',
+        [
+            _dependency(
+                from_module='BASE_PACKAGE.RELATIVE_IMPORT',
                 from_name='some_module',
-                to_module='sibling_namespace',
+                to_module='BASE_PACKAGE.some_module',
+                to_name='some_module',
+                category='module',
+                is_relative=True,
+                level=1,
+            ),
+        ],
+    ),
+    (
+        'BASE_PACKAGE.RELATIVE_IMPORT_TO_SIBLING',
+        'from .sibling_namespace import some_name',
+        [
+            _dependency(
+                from_module='BASE_PACKAGE.RELATIVE_IMPORT_TO_SIBLING',
+                from_name='some_name',
+                to_module='BASE_PACKAGE.sibling_namespace',
+                to_name='some_name',
+                category='module',
+                is_relative=True,
+                level=1,
+            ),
+        ],
+    ),
+    (
+        'RELATIVE_IMPORT_FROM_ROOT',
+        'from . import some_module',
+        [
+            _dependency(
+                from_module='RELATIVE_IMPORT_FROM_ROOT',
+                from_name='some_module',
+                to_module='some_module',
                 to_name='some_module',
                 category='module',
                 is_relative=True,
@@ -157,7 +202,7 @@ def test_find_imports():
             'is_relative': False,
             'from_name': 'random',
             'to_name': 'random',
-            # 'level': 0  # FIXME enable after fixed
+            'level': 0
         },
         {
             'from_module': 'fake_module.__init__',
@@ -166,7 +211,7 @@ def test_find_imports():
             'is_relative': False,
             'from_name': 'fake_module.a_module',
             'to_name': 'fake_module.a_module',
-            # 'level': 0  # FIXME enable after fixed
+            'level': 0
         },
         {
             'from_module': 'fake_module.__init__',
@@ -180,9 +225,7 @@ def test_find_imports():
 
         {
             'from_module': 'fake_module.a_module',
-            'to_module': 'another_module',
-            # FIXME enable after relative names resolution done
-            # 'to_module': 'fake_module.another_module',
+            'to_module': 'fake_module.another_module',
             'category': 'module',
             'is_relative': True,
             'from_name': 'oh_nice',

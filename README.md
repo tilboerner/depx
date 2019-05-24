@@ -60,7 +60,7 @@ Sketch of ideas. This is not meant as a plan, but to guide initial development.
 
 - [x] show fully qualified names for importing module and dependency
 - [ ] ability to show only top-level names
-- [ ] resolve relative imports to proper names
+- [x] resolve relative imports to proper names
 - [ ] resolve `*` imports
 
 
