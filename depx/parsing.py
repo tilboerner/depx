@@ -1,14 +1,19 @@
 import ast
+import logging
 import os
 import re
 
 
-def _dependency(*, from_module, to_module, category='', is_relative=False, **kwargs):
+logger = logging.getLogger(__name__)
+
+
+def _dependency(*, from_module, to_module, category='', is_relative=False, level=0, **kwargs):
     dep = {
         'from_module': from_module,
         'to_module': to_module,  # currently, this could also be a symbol within a module
         'category': category,
         'is_relative': is_relative,
+        'level': level,
     }
     dep.update(kwargs)
     return dep
@@ -65,14 +70,14 @@ def _is_module(path):
 
 
 def find_imports(path):
-    if _is_package(path):
-        yield from find_package_imports(path)
-    else:
+    if _is_module(path):
         yield from find_module_imports(path)
+    else:
+        yield from find_imports_in_directory(path)
 
 
-def find_package_imports(path):
-    for path, subdirs, files in os.walk(path):
+def find_imports_in_directory(directory_path):
+    for path, subdirs, files in os.walk(directory_path):
         subdirs[:] = [
             d for d in subdirs if _is_package(os.path.join(path, d))
         ]
@@ -109,8 +114,13 @@ def find_imports_from_text(text, base_name):
                 )
         elif isinstance(node, ast.ImportFrom):
             level = node.level
-            to_module = node.module
+            module = node.module
             for alias in node.names:
+                if level:
+                    to_module = module or alias.name  # module is None for 'from . import'
+                    to_module = _resolve_relative_name(to_module, base_name, level)
+                else:
+                    to_module = module
                 yield _dependency(
                     category=category,
                     from_module=base_name,
@@ -129,6 +139,18 @@ def filter_top_level_names(deps):
         dep['from_name'] = ''
         dep['to_name'] = ''
         yield dep
+
+
+def _resolve_relative_name(name, base_name, level):
+    parts = base_name and base_name.split('.')
+    if not (parts and all(parts)) or len(parts) < level:
+        logger.warning(
+            'Unable to resolve relative name %r: bad or missing basename (%r)',
+            name, base_name
+        )
+        return name
+    resolved_base = parts[:-level]
+    return '.'.join(resolved_base + [name])
 
 
 if __name__ == '__main__':
