@@ -202,7 +202,7 @@ def test_find_imports():
             'is_relative': False,
             'from_name': 'random',
             'to_name': 'random',
-            # 'level': 0  # FIXME enable after fixed
+            'level': 0
         },
         {
             'from_module': 'fake_module.__init__',
@@ -211,7 +211,7 @@ def test_find_imports():
             'is_relative': False,
             'from_name': 'fake_module.a_module',
             'to_name': 'fake_module.a_module',
-            # 'level': 0  # FIXME enable after fixed
+            'level': 0
         },
         {
             'from_module': 'fake_module.__init__',
@@ -225,9 +225,7 @@ def test_find_imports():
 
         {
             'from_module': 'fake_module.a_module',
-            'to_module': 'another_module',
-            # FIXME enable after relative names resolution done
-            # 'to_module': 'fake_module.another_module',
+            'to_module': 'fake_module.another_module',
             'category': 'module',
             'is_relative': True,
             'from_name': 'oh_nice',
