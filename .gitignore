@@ -72,7 +72,3 @@ ENV/
 
 # mypy
 .mypy_cache/
-
-graph.html
-graph.graphml
-graph.dot

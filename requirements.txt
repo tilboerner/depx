@@ -9,4 +9,4 @@ decorator==4.4.0          # via networkx
 jinja2==2.10
 markupsafe==1.1.1         # via jinja2
 networkx==2.2
-pygraphviz==1.5
+pydot==1.4.1
