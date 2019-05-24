@@ -1,3 +1,5 @@
+import json
+
 from depx.graph import (
     create_graph_from, to_html, to_graphml, to_dotfile, to_json
 )
@@ -91,4 +93,4 @@ def test_format_to_dotfile(dependencies):
 def test_format_to_json(dependencies):
     content = to_json(dependencies=dependencies)
 
-    assert isinstance(content, str)
+    assert json.loads(content) == dependencies
