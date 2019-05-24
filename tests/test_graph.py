@@ -91,4 +91,4 @@ def test_format_to_dotfile(dependencies):
 def test_format_to_json(dependencies):
     content = to_json(dependencies=dependencies)
 
-    assert '"from_module": "opportunity.models",' in content
+    assert isinstance(content, str)
