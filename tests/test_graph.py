@@ -34,7 +34,7 @@ def dependencies():
 
 
 def test_create_graph(dependencies):
-    G = create_graph_from(dependencies)
+    graph = create_graph_from(dependencies)
 
     expected_nodes = [
         'opportunity.models',
@@ -47,13 +47,13 @@ def test_create_graph(dependencies):
         ('common.utils', 'opportunity.views', {'weight': 1}),
         ('sales_appoinment.views', 'common.utils', {'weight': 1})
     ]
-    for node in G.nodes():
+    for node in graph.nodes():
         assert node in expected_nodes
         expected_nodes.remove(node)
 
     assert expected_nodes == []
 
-    for edge in G.edges(data=True):
+    for edge in graph.edges(data=True):
         assert edge in expected_edges
         expected_edges.remove(edge)
 
