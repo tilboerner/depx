@@ -1,4 +1,10 @@
-from depx import graph
+import json
+
+from depx.graph import (
+    create_graph_from, to_html, to_graphml, to_dotfile, to_json
+)
+import networkx as nx
+import io
 import os
 import pytest
 
@@ -30,7 +36,7 @@ def dependencies():
 
 
 def test_create_graph(dependencies):
-    G = graph.create_from(dependencies)
+    graph = create_graph_from(dependencies)
 
     expected_nodes = [
         'opportunity.models',
@@ -43,22 +49,48 @@ def test_create_graph(dependencies):
         ('common.utils', 'opportunity.views', {'weight': 1}),
         ('sales_appoinment.views', 'common.utils', {'weight': 1})
     ]
-    for node in G.nodes():
+    for node in graph.nodes():
         assert node in expected_nodes
         expected_nodes.remove(node)
 
     assert expected_nodes == []
 
-    for edge in G.edges(data=True):
+    for edge in graph.edges(data=True):
         assert edge in expected_edges
         expected_edges.remove(edge)
 
     assert expected_edges == []
 
 
-def test_generate_a_report(dependencies):
-    G = graph.create_from(dependencies)
+def test_format_to_html(dependencies):
+    graph = create_graph_from(dependencies)
 
-    graph.report(G, os.getcwd())
+    content = to_html(graph=graph, path=os.getcwd())
 
-    assert 'report.html' in os.listdir()
+    assert '<!DOCTYPE html>' in content
+
+
+def test_format_to_graphml(dependencies):
+    graph = create_graph_from(dependencies)
+    content = to_graphml(graph=graph, path=os.getcwd())
+
+    exported_graph = nx.read_graphml(io.StringIO(content))
+
+    assert exported_graph.nodes() == graph.nodes()
+    assert exported_graph.edges() == graph.edges()
+
+
+def test_format_to_dotfile(dependencies):
+    graph = create_graph_from(dependencies)
+    content = to_dotfile(graph=graph, path=os.getcwd())
+
+    exported_graph = nx.drawing.nx_pydot.read_dot(io.StringIO(content))
+
+    assert exported_graph.nodes() == graph.nodes()
+    assert nx.to_dict_of_dicts(graph).keys() == nx.to_dict_of_dicts(exported_graph).keys()
+
+
+def test_format_to_json(dependencies):
+    content = to_json(dependencies=dependencies)
+
+    assert json.loads(content) == dependencies
