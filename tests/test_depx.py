@@ -15,12 +15,10 @@ def test_command_line_interface():
 
 
 @pytest.mark.parametrize('format', [
-    'json', 'html', 'graphml', 'dotfile'
+    'json', 'html', 'graphml', 'dot'
 ])
 def test_export_to(format):
-    expected_message = 'Your graph is ready:'
     runner = CliRunner()
     run_result = runner.invoke(cli.main, [fake_module, '--format', format])
 
     assert run_result.exit_code == 0
-    assert expected_message in run_result.output

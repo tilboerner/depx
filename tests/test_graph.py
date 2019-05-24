@@ -1,6 +1,8 @@
 from depx.graph import (
     create_graph_from, to_html, to_graphml, to_dotfile, to_json
 )
+import networkx as nx
+import io
 import os
 import pytest
 
@@ -61,34 +63,32 @@ def test_create_graph(dependencies):
 def test_format_to_html(dependencies):
     graph = create_graph_from(dependencies)
 
-    to_html(graph=graph, path=os.getcwd())
+    content = to_html(graph=graph, path=os.getcwd())
 
-    assert 'graph.html' in os.listdir()
-
-    os.remove('graph.html')
+    assert '<!DOCTYPE html>' in content
 
 
 def test_format_to_graphml(dependencies):
     graph = create_graph_from(dependencies)
+    content = to_graphml(graph=graph, path=os.getcwd())
 
-    to_graphml(graph=graph, path=os.getcwd())
+    exported_graph = nx.read_graphml(io.StringIO(content))
 
-    assert 'graph.graphml' in os.listdir()
-
-    os.remove('graph.graphml')
+    assert exported_graph.nodes() == graph.nodes()
+    assert exported_graph.edges() == graph.edges()
 
 
 def test_format_to_dotfile(dependencies):
     graph = create_graph_from(dependencies)
+    content = to_dotfile(graph=graph, path=os.getcwd())
 
-    to_dotfile(graph=graph, path=os.getcwd())
+    exported_graph = nx.drawing.nx_pydot.read_dot(io.StringIO(content))
 
-    assert 'graph.dot' in os.listdir()
-
-    os.remove('graph.dot')
+    assert exported_graph.nodes() == graph.nodes()
+    assert nx.to_dict_of_dicts(graph).keys() == nx.to_dict_of_dicts(exported_graph).keys()
 
 
 def test_format_to_json(dependencies):
-    graph_json = to_json(dependencies=dependencies)
+    content = to_json(dependencies=dependencies)
 
-    assert isinstance(graph_json, str)
+    assert '"from_module": "opportunity.models",' in content

@@ -2,7 +2,8 @@ from jinja2 import Template
 import json
 import networkx as nx
 from networkx.readwrite import json_graph
-from networkx.drawing.nx_agraph import write_dot
+from networkx.drawing.nx_pydot import to_pydot
+import io
 
 
 def create_graph_from(dependencies):
@@ -23,23 +24,20 @@ def to_html(**kwargs):
 
     with open('depx/template.html') as file_:
         template = Template(file_.read())
-
-        filename = 'graph.html'
-        with open(filename, 'w') as report_file:
-            report_file.write(template.render(data=data, path=kwargs['path']))
-    return filename
+        content = template.render(data=data, path=kwargs['path'])
+        return content
 
 
 def to_graphml(**kwargs):
-    filename = 'graph.graphml'
-    nx.write_graphml(kwargs['graph'], filename)
-    return filename
+    in_memory_file = io.BytesIO()
+
+    nx.write_graphml(kwargs['graph'], in_memory_file)
+    return in_memory_file.getvalue().decode('utf-8')
 
 
 def to_dotfile(**kwargs):
-    filename = 'graph.dot'
-    write_dot(kwargs['graph'], 'graph.dot')
-    return filename
+    pydot = to_pydot(kwargs['graph'])
+    return pydot.to_string()
 
 
 def to_json(**kwargs):

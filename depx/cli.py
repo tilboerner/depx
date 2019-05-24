@@ -10,7 +10,7 @@ formatters = {
     'json': to_json,
     'html': to_html,
     'graphml': to_graphml,
-    'dotfile': to_dotfile
+    'dot': to_dotfile
 }
 
 
@@ -29,9 +29,7 @@ def main(path, format):
         graph = create_graph_from(deps)
 
         export_to = formatters.get(format)
-        graph_location = export_to(graph=graph, path=path, dependencies=deps)
-
-        click.echo('Your graph is ready:\n{}'.format(graph_location))
+        click.echo(export_to(graph=graph, path=path, dependencies=deps))
 
     return 0
 
