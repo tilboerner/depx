@@ -7,7 +7,7 @@ import io
 from pathlib import Path
 
 
-TEMPLATE_FILE = Path(__file__).parent.absolute() / 'template.html'
+TEMPLATE_FILE = str(Path(__file__).parent.absolute() / 'template.html')
 
 
 def create_graph_from(dependencies):
