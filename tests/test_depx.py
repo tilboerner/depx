@@ -4,7 +4,7 @@ import pytest
 from depx import cli
 
 
-fake_module = 'tests/fake_project/fake_module'
+fake_module = 'tests/fake_project/py3/fake_module'
 
 
 def test_command_line_interface():
