@@ -29,7 +29,7 @@ more-itertools==6.0.0     # via pytest
 networkx==2.2
 packaging==19.0           # via sphinx
 pathtools==0.1.2          # via watchdog
-pip-tools==3.5.0
+pip-tools==3.8.0
 pkginfo==1.5.0.1          # via twine
 pluggy==0.9.0             # via pytest, tox
 py==1.8.0                 # via pytest, tox
