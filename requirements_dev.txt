@@ -22,16 +22,17 @@ filelock==3.0.10          # via tox
 flake8==3.7.7
 idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
-jinja2==2.10
+importlib-metadata==0.18  # via pluggy, pytest
+jinja2==2.10.1
 markupsafe==1.1.1
 mccabe==0.6.1             # via flake8
 more-itertools==6.0.0     # via pytest
 networkx==2.2
-packaging==19.0           # via sphinx
+packaging==19.0           # via pytest, sphinx
 pathtools==0.1.2          # via watchdog
 pip-tools==3.5.0
 pkginfo==1.5.0.1          # via twine
-pluggy==0.9.0             # via pytest, tox
+pluggy==0.12.0            # via pytest, tox
 py==1.8.0                 # via pytest, tox
 pycodestyle==2.5.0        # via flake8
 pydot==1.4.1
@@ -39,13 +40,13 @@ pyflakes==2.1.1           # via flake8
 pygments==2.3.1           # via readme-renderer, sphinx
 pyparsing==2.3.1          # via packaging, pydot
 pytest-runner==4.4
-pytest==4.3.1
+pytest==5.0.0
 pytz==2018.9              # via babel
 pyyaml==5.1               # via watchdog
 readme-renderer==24.0     # via twine
 requests-toolbelt==0.9.1  # via twine
 requests==2.21.0          # via requests-toolbelt, sphinx, twine
-six==1.12.0               # via bleach, packaging, pip-tools, pytest, readme-renderer, sphinx, tox
+six==1.12.0               # via bleach, packaging, pip-tools, readme-renderer, sphinx, tox
 snowballstemmer==1.2.1    # via sphinx
 sphinx==1.8.5
 sphinxcontrib-websupport==1.1.0  # via sphinx
@@ -56,5 +57,7 @@ twine==1.13.0
 urllib3==1.24.2           # via requests
 virtualenv==16.4.3        # via tox
 watchdog==0.9.0
+wcwidth==0.1.7            # via pytest
 webencodings==0.5.1       # via bleach
 wheel==0.33.1
+zipp==0.5.1               # via importlib-metadata
