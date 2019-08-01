@@ -14,7 +14,7 @@ bumpversion==0.5.3
 certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
 click==7.0
-coverage==4.5.3
+coverage==4.5.4
 decorator==4.4.0
 docutils==0.14            # via readme-renderer, sphinx
 entrypoints==0.3          # via flake8
@@ -22,7 +22,7 @@ filelock==3.0.10          # via tox
 flake8==3.7.7
 idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
-jinja2==2.10
+jinja2==2.10.1
 markupsafe==1.1.1
 mccabe==0.6.1             # via flake8
 more-itertools==6.0.0     # via pytest
