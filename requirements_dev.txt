@@ -22,16 +22,17 @@ filelock==3.0.10          # via tox
 flake8==3.7.7
 idna==2.8                 # via requests
 imagesize==1.1.0          # via sphinx
-jinja2==2.10
+importlib-metadata==0.19  # via pluggy, tox
+jinja2==2.10.1
 markupsafe==1.1.1
 mccabe==0.6.1             # via flake8
 more-itertools==6.0.0     # via pytest
 networkx==2.2
-packaging==19.0           # via sphinx
+packaging==19.0           # via sphinx, tox
 pathtools==0.1.2          # via watchdog
 pip-tools==3.5.0
 pkginfo==1.5.0.1          # via twine
-pluggy==0.9.0             # via pytest, tox
+pluggy==0.12.0            # via pytest, tox
 py==1.8.0                 # via pytest, tox
 pycodestyle==2.5.0        # via flake8
 pydot==1.4.1
@@ -50,7 +51,7 @@ snowballstemmer==1.2.1    # via sphinx
 sphinx==1.8.5
 sphinxcontrib-websupport==1.1.0  # via sphinx
 toml==0.10.0              # via tox
-tox==3.7.0
+tox==3.13.2
 tqdm==4.31.1              # via twine
 twine==1.13.0
 urllib3==1.24.2           # via requests
@@ -58,3 +59,4 @@ virtualenv==16.4.3        # via tox
 watchdog==0.9.0
 webencodings==0.5.1       # via bleach
 wheel==0.33.1
+zipp==0.5.2               # via importlib-metadata
