@@ -22,7 +22,8 @@ py==1.8.0                 # via pytest, tox
 pycodestyle==2.5.0        # via flake8
 pydot==1.4.1
 pyflakes==2.1.1           # via flake8
-pytest-runner==4.4
+pyparsing==2.4.0          # via pydot
+pytest-runner==5.1
 pytest==4.3.1
 six==1.12.0               # via pytest, tox
 toml==0.10.0              # via tox
