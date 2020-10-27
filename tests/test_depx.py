@@ -14,9 +14,7 @@ def test_command_line_interface():
     assert run_result.exit_code == 0
 
 
-@pytest.mark.parametrize('format', [
-    'json', 'html', 'graphml', 'dot'
-])
+@pytest.mark.parametrize('format', ['json', 'html', 'graphml', 'dot'])
 def test_export_to(format):
     runner = CliRunner()
     run_result = runner.invoke(cli.main, [fake_module, '--format', format])

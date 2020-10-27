@@ -7,7 +7,9 @@ import re
 logger = logging.getLogger(__name__)
 
 
-def _dependency(*, from_module, to_module, category='', is_relative=False, level=0, **kwargs):
+def _dependency(
+    *, from_module, to_module, category='', is_relative=False, level=0, **kwargs
+):
     dep = {
         'from_module': from_module,
         'to_module': to_module,  # currently, this could also be a symbol within a module
@@ -30,6 +32,7 @@ def _goes_local(node):
 
 def _walk(node):
     from collections import deque
+
     iter_child_nodes = ast.iter_child_nodes
     todo = deque([(node, False)])
     while todo:
@@ -78,9 +81,7 @@ def find_imports(path):
 
 def find_imports_in_directory(directory_path):
     for path, subdirs, files in os.walk(directory_path):
-        subdirs[:] = [
-            d for d in subdirs if _is_package(os.path.join(path, d))
-        ]
+        subdirs[:] = [d for d in subdirs if _is_package(os.path.join(path, d))]
         for filename in files:
             module_path = os.path.join(path, filename)
             if not _is_module(module_path):
@@ -117,7 +118,9 @@ def find_imports_from_text(text, base_name):
             module = node.module
             for alias in node.names:
                 if level:
-                    to_module = module or alias.name  # module is None for 'from . import'
+                    to_module = (
+                        module or alias.name
+                    )  # module is None for 'from . import'
                     to_module = _resolve_relative_name(to_module, base_name, level)
                 else:
                     to_module = module
@@ -146,7 +149,8 @@ def _resolve_relative_name(name, base_name, level):
     if not (parts and all(parts)) or len(parts) < level:
         logger.warning(
             'Unable to resolve relative name %r: bad or missing basename (%r)',
-            name, base_name
+            name,
+            base_name,
         )
         return name
     resolved_base = parts[:-level]
@@ -155,5 +159,6 @@ def _resolve_relative_name(name, base_name, level):
 
 if __name__ == '__main__':
     from pprint import pprint
+
     for x in find_module_imports(__file__):
         pprint(x)

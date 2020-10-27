@@ -1,8 +1,6 @@
 import json
 
-from depx.graph import (
-    create_graph_from, to_html, to_graphml, to_dotfile, to_json
-)
+from depx.graph import create_graph_from, to_html, to_graphml, to_dotfile, to_json
 import networkx as nx
 import io
 import os
@@ -15,23 +13,23 @@ def dependencies():
         {
             "from_module": "opportunity.models",
             "to_module": "common.utils",
-            "category": "local"
+            "category": "local",
         },
         {
             "from_module": "opportunity.models",
             "to_module": "common.utils",
-            "category": "local"
+            "category": "local",
         },
         {
             "from_module": "sales_appoinment.views",
             "to_module": "common.utils",
-            "category": "local"
+            "category": "local",
         },
         {
             "from_module": "common.utils",
             "to_module": "opportunity.views",
-            "category": "local"
-        }
+            "category": "local",
+        },
     ]
 
 
@@ -47,7 +45,7 @@ def test_create_graph(dependencies):
     expected_edges = [
         ('opportunity.models', 'common.utils', {'weight': 2}),
         ('common.utils', 'opportunity.views', {'weight': 1}),
-        ('sales_appoinment.views', 'common.utils', {'weight': 1})
+        ('sales_appoinment.views', 'common.utils', {'weight': 1}),
     ]
     for node in graph.nodes():
         assert node in expected_nodes
@@ -87,7 +85,9 @@ def test_format_to_dotfile(dependencies):
     exported_graph = nx.drawing.nx_pydot.read_dot(io.StringIO(content))
 
     assert exported_graph.nodes() == graph.nodes()
-    assert nx.to_dict_of_dicts(graph).keys() == nx.to_dict_of_dicts(exported_graph).keys()
+    assert (
+        nx.to_dict_of_dicts(graph).keys() == nx.to_dict_of_dicts(exported_graph).keys()
+    )
 
 
 def test_format_to_json(dependencies):
