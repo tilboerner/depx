@@ -1,7 +1,9 @@
 -r requirements_test.in
 
+black
 bumpversion
 pip-tools
+pre-commit
 Sphinx
 twine
 watchdog

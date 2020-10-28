@@ -4,9 +4,10 @@
 #
 #    make requirements
 #
-click==7.0
-decorator==4.4.0          # via networkx
-jinja2==2.10.1
+click==7.1.2              # via depx (setup.py)
+decorator==4.4.2          # via networkx
+jinja2==2.11.2            # via depx (setup.py)
 markupsafe==1.1.1         # via jinja2
-networkx==2.3
-pydot==1.4.1
+networkx==2.5             # via depx (setup.py)
+pydot==1.4.1              # via depx (setup.py)
+pyparsing==2.4.7          # via pydot
