@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "depx"
-version = "0.1.0"
+version = "0.2.0"
 description = "Examine and visualize dependencies used by Python modules."
 authors = [
     "Ana Paula Gomes <apgomes88@gmail.com>",
