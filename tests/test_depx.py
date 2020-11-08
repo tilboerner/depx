@@ -1,10 +1,16 @@
 from click.testing import CliRunner
 import pytest
 
+import depx
 from depx import cli
 
 
 fake_module = 'tests/fake_project/fake_module'
+
+
+def test_package_version_matches_project():
+    import pkg_resources
+    assert depx.__version__ == pkg_resources.get_distribution('depx').version
 
 
 def test_command_line_interface():
