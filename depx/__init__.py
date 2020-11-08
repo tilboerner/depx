@@ -2,6 +2,6 @@
 
 """Top-level package for Depx."""
 
-__author__ = """Thermondo"""
-__email__ = 'opensource@thermondo.de'
+__author__ = """Til Boerner"""
+__email__ = 'github@dxdm.org'
 __version__ = '0.1.0'

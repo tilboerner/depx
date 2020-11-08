@@ -49,7 +49,7 @@ master_doc = 'index'
 # General information about the project.
 project = u'Depx'
 copyright = u"2019, Thermondo"
-author = u"Thermondo"
+author = u"Til Boerner"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -130,7 +130,7 @@ latex_elements = {
 latex_documents = [
     (master_doc, 'depx.tex',
      u'Depx Documentation',
-     u'Thermondo', 'manual'),
+     u'Til Boerner', 'manual'),
 ]
 
 

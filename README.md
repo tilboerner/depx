@@ -1,6 +1,6 @@
 # Depx
 
-[![Build Status](https://travis-ci.com/Thermondo/depx.svg?token=9ar8wQENH7prXiRzxQ4v&branch=master)](https://travis-ci.com/Thermondo/depx)
+[![Build Status](https://api.travis-ci.org/tilboerner/depx.svg?branch=master)](https://travis-ci.org/tilboerner/depx)
 
 
 Examine and visualize dependencies used by Python modules.

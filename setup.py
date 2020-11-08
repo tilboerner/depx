@@ -15,8 +15,8 @@ setup_requirements = ['pytest-runner', ]
 test_requirements = ['pytest', ]
 
 setup(
-    author="Thermondo",
-    author_email='opensource@thermondo.de',
+    author="Til Boerner",
+    author_email='github@dxdm.org',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -46,7 +46,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/thermondo/depx',
+    url='https://github.com/tilboerner/depx',
     version='0.1.0',
     zip_safe=False,
 )
