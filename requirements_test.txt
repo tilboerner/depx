@@ -6,26 +6,26 @@
 #
 atomicwrites==1.3.0       # via pytest
 attrs==19.1.0             # via pytest
-click==7.0
-coverage==4.5.3
-decorator==4.4.0
+click==7.0                # via -r requirements.txt
+coverage==4.5.3           # via -r requirements_test.in
+decorator==4.4.0          # via -r requirements.txt, networkx
 entrypoints==0.3          # via flake8
 filelock==3.0.10          # via tox
-flake8==3.7.7
-jinja2==2.10
-markupsafe==1.1.1
+flake8==3.7.7             # via -r requirements_test.in
+jinja2==2.10.1            # via -r requirements.txt
+markupsafe==1.1.1         # via -r requirements.txt, jinja2
 mccabe==0.6.1             # via flake8
 more-itertools==6.0.0     # via pytest
-networkx==2.2
+networkx==2.3             # via -r requirements.txt
 pluggy==0.9.0             # via pytest, tox
 py==1.8.0                 # via pytest, tox
 pycodestyle==2.5.0        # via flake8
-pydot==1.4.1
+pydot==1.4.1              # via -r requirements.txt
 pyflakes==2.1.1           # via flake8
 pyparsing==2.4.0          # via pydot
-pytest-runner==5.1
-pytest==4.3.1
+pytest-runner==5.1        # via -r requirements_test.in
+pytest==4.3.1             # via -r requirements_test.in
 six==1.12.0               # via pytest, tox
 toml==0.10.0              # via tox
-tox==3.7.0
+tox==3.7.0                # via -r requirements_test.in
 virtualenv==16.4.3        # via tox
