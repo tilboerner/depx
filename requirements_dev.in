@@ -1,8 +1,0 @@
--r requirements_test.in
-
-bumpversion
-pip-tools
-Sphinx
-twine
-watchdog
-wheel

@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "depx"
+version = "0.1.0"
+description = "Examine and visualize dependencies used by Python modules."
+authors = [
+    "Ana Paula Gomes <apgomes88@gmail.com>",
+    "Til Boerner <github@dxdm.org>",
+    "Thermondo <opensource@thermondo.de>"
+]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://github.com/tilboerner/depx"
+repository = "https://github.com/tilboerner/depx.git"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+]
+
+[tool.poetry.scripts]
+depx = "depx.cli:main"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/tilboerner/depx/issues"
+
+[tool.poetry.dependencies]
+python = "^3.5"
+Click = "~7.0"
+jinja2 = "^2.11"
+networkx = "^2.3"
+pydot = "^1.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1"
+flake8 = "^3.8.4"
+coverage = "^5.3"
+Sphinx = "^3.3"
+
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
